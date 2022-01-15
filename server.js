@@ -1,6 +1,10 @@
 'use strict';
 require('dotenv').config();
 const express = require('express');
+const passport = require('passport');
+const session = require('express-session');
+
+
 const myDB = require('./connection');
 const fccTesting = require('./freeCodeCamp/fcctesting.js');
 
@@ -11,6 +15,13 @@ app.use('/public', express.static(process.cwd() + '/public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'pug')
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
+app.use(passport.initialize());
 app.route('/').get((req, res) => {
   res.render('pug/index.pug', { title: 'Hello', message: 'Please login' });
 });
