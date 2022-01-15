@@ -26,7 +26,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.set('view engine', 'pug')
 
-
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/');
+};
 
 myDB(async client => {
   const myDataBase = await client.db('database').collection('users');
@@ -53,7 +58,7 @@ myDB(async client => {
       showLogin: true
     });
   });
-  app.get('/profile', (req, res) => {
+  app.get('/profile', ensureAuthenticated, (req, res) => {
     //Change the response to render the Pug template
     res.render('pug/profile.pug');
   });
