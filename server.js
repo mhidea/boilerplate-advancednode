@@ -53,12 +53,12 @@ myDB(async client => {
       showLogin: true
     });
   });
-  app.route('/profile').get((req, res) => {
+  app.get('/profile', (req, res) => {
     //Change the response to render the Pug template
     res.render('pug/profile.pug');
   });
   app.post('/login', passport.authenticate('local', {
-    failureRedirect: '/'
+    failureRedirect: './'
   }), (req, res) => {
     return res.redirect('/profile');
   }
