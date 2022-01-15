@@ -6,9 +6,7 @@ const session = require('express-session');
 
 
 const myDB = require('./connection');
-myDB(function () {
-  console.log("DSD");
-})
+const ObjectID = require('mongodb').ObjectID;
 const fccTesting = require('./freeCodeCamp/fcctesting.js');
 
 const app = express();
