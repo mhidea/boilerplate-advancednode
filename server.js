@@ -7,6 +7,7 @@ const LocalStrategy = require('passport-local');
 const myDB = require('./connection');
 const ObjectID = require('mongodb').ObjectID;
 const fccTesting = require('./freeCodeCamp/fcctesting.js');
+const { response } = require('express');
 const app = express();
 
 
@@ -29,6 +30,8 @@ app.set('view engine', 'pug')
 
 myDB(async client => {
   const myDataBase = await client.db('database').collection('users');
+
+
   // Be sure to change the title
   passport.use(new LocalStrategy(
     function (username, password, done) {
@@ -42,14 +45,24 @@ myDB(async client => {
     }
   ));
 
-
   app.route('/').get((req, res) => {
     //Change the response to render the Pug template
     res.render('pug', {
       title: 'Connected to Database',
-      message: 'Please login'
+      message: 'Please login',
+      showLogin: true
     });
   });
+  app.route('/profile').get((req, res) => {
+    //Change the response to render the Pug template
+    res.render('pug/profile.pug');
+  });
+  app.post('/login', passport.authenticate('local', {
+    failureRedirect: '/'
+  }), (req, res) => {
+    return res.redirect('/profile');
+  }
+  );
   passport.serializeUser((user, done) => {
     done(null, user._id);
   });
