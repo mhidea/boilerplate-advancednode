@@ -6,6 +6,9 @@ const session = require('express-session');
 
 
 const myDB = require('./connection');
+myDB(function () {
+  console.log("DSD");
+})
 const fccTesting = require('./freeCodeCamp/fcctesting.js');
 
 const app = express();
@@ -25,6 +28,16 @@ app.use(passport.session());
 
 app.set('view engine', 'pug')
 
+passport.serializeUser((user, done) => {
+  done(null, user._id);
+});
+
+passport.deserializeUser((id, done) => {
+  done(null, null);
+  // myDataBase.findOne({ _id: new ObjectID(id) }, (err, doc) => {
+  //   done(null, null);
+  // });
+});
 
 app.route('/').get((req, res) => {
   res.render('pug/index.pug', { title: 'Hello', message: 'Please login' });
