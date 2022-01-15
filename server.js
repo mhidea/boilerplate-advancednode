@@ -58,9 +58,9 @@ myDB(async client => {
       showLogin: true
     });
   });
-  app.get('/profile', ensureAuthenticated, (req, res) => {
+  app.route('/profile').get(ensureAuthenticated, (req, res) => {
     //Change the response to render the Pug template
-    res.render('pug/profile.pug');
+    res.render(process.cwd() + '/views/pug/profile');
   });
   app.post('/login', passport.authenticate('local', {
     failureRedirect: '/'
