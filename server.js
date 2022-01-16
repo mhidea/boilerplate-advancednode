@@ -76,10 +76,10 @@ myDB(async client => {
         connected: false
       });
     });
-    socket.on('chat message', socket => {
+    socket.on('chat message', s => {
       io.emit('chat message', {
         name: socket.request.user.name,
-        message,
+        message: socket.data.message,
       });
     })
   });
