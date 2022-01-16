@@ -40,6 +40,12 @@ myDB(async client => {
     io.emit('user count', currentUsers);
 
   });
+  io.on('disconnect', socket => {
+    --currentUsers;
+    console.log('A user has connected');
+    io.emit('user count', currentUsers);
+
+  });
   // Be sure to change the title
   routes(app, myDataBase);
   auth(app, myDataBase);
