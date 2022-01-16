@@ -1,6 +1,7 @@
 const passport = require('passport');
 const ObjectID = require('mongodb').ObjectID;
-
+const LocalStrategy = require('passport-local');
+const GitHubStrategy = require('passport-github').Strategy;
 
 module.exports = function (app, myDataBase) {
     passport.use(new LocalStrategy(
