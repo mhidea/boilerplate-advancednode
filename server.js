@@ -38,14 +38,14 @@ myDB(async client => {
     ++currentUsers;
     console.log('A user has connected');
     io.emit('user count', currentUsers);
-
-  });
-  io.on('disconnect', socket => {
+  socket.on('disconnect', socket => {
     --currentUsers;
-    console.log('A user has connected');
+    console.log('A user has disconnected');
     io.emit('user count', currentUsers);
 
   });
+  });
+
   // Be sure to change the title
   routes(app, myDataBase);
   auth(app, myDataBase);
