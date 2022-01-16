@@ -1,3 +1,7 @@
+
+/*global io*/
+let socket = io();
+
 $(document).ready(function () {
   // Form submittion with new message in field with id 'm'
   $('form').submit(function () {
