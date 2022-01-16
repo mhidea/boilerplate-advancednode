@@ -34,19 +34,6 @@ myDB(async client => {
   const myDataBase = await client.db('database').collection('users');
 
   // Be sure to change the title
-  passport.use(new LocalStrategy(
-    function (username, password, done) {
-      myDataBase.findOne({ username: username }, function (err, user) {
-        console.log('User ' + username + ' attempted to log in.');
-        if (err) { return done(err); }
-        if (!user) { return done(null, false); }
-        if (!bcrypt.compareSync(password, user.password)) {
-          return done(null, false);
-        } return done(null, user);
-      });
-    }
-  ));
-
   routes(app, myDataBase);
   auth(app, myDataBase);
 }).catch(e => {

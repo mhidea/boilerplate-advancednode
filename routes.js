@@ -1,4 +1,5 @@
 const passport = require('passport');
+const GitHubStrategy = require('passport-github').Strategy;
 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
