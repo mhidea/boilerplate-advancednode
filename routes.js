@@ -13,12 +13,21 @@ module.exports = function (app, myDataBase) {
             title: 'Connected to Database',
             message: 'Please login',
             showLogin: true,
-            showRegistration: true
+            showRegistration: true,
+            showSocialAuth: true
         });
     });
     app.route('/profile').get(ensureAuthenticated, (req, res) => {
         //Change the response to render the Pug template
         res.render(process.cwd() + '/views/pug/profile', { username: req.user.username });
+    });
+
+    app.get('/auth/github', passport.authenticate('github'));
+
+    app.get('/auth/github/callback', passport.authenticate('github', {
+        failureRedirect: '/'
+    }), (req, res) => {
+        return res.redirect('/profile');
     });
     app.post('/login', passport.authenticate('local', {
         failureRedirect: '/'
