@@ -77,6 +77,8 @@ myDB(async client => {
       });
     });
     socket.on('chat message', s => {
+      console.log(s);
+      console.log(socket);
       io.emit('chat message', {
         name: socket.request.user.name,
         message: socket.data.message,
