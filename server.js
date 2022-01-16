@@ -9,7 +9,7 @@ const ObjectID = require('mongodb').ObjectID;
 const fccTesting = require('./freeCodeCamp/fcctesting.js');
 const { response } = require('express');
 const app = express();
-
+const bcrypt = require('bcrypt')
 
 fccTesting(app); //For FCC testing purposes
 
@@ -45,8 +45,9 @@ myDB(async client => {
         console.log('User ' + username + ' attempted to log in.');
         if (err) { return done(err); }
         if (!user) { return done(null, false); }
-        if (password !== user.password) { return done(null, false); }
-        return done(null, user);
+        if (!bcrypt.compareSync(password, user.password)) {
+          return done(null, false);
+        } return done(null, user);
       });
     }
   ));
@@ -86,7 +87,7 @@ myDB(async client => {
         } else {
           myDataBase.insertOne({
             username: req.body.username,
-            password: req.body.password
+            password: bcrypt.hashSync(req.body.password, 12)
           },
             (err, doc) => {
               if (err) {
